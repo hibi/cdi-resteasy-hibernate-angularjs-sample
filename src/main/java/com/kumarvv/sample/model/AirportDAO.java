@@ -2,17 +2,24 @@ package com.kumarvv.sample.model;
 
 import org.apache.log4j.Logger;
 
+import java.util.List;
+
+import javax.ejb.Stateless;
+import javax.ejb.TransactionManagement;
+import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import java.util.List;
+import javax.persistence.PersistenceContext;
 
 /**
  *  Sample AirportDAO
  */
+@Stateless
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class AirportDAO {
 
-	@Inject
+	@PersistenceContext
 	EntityManager em;
 
 	@Inject
@@ -50,24 +57,18 @@ public class AirportDAO {
 
 	public Airport insert(Airport airport) {
 		try {
-			em.getTransaction().begin();
 			em.persist(airport);
-			em.getTransaction().commit();
 		} catch (Exception e) {
 			log.error(e);
-			em.getTransaction().rollback();
 		}
 		return airport;
 	}
 
 	public Airport update(Airport airport) {
 		try {
-			em.getTransaction().begin();
 			em.merge(airport);
-			em.getTransaction().commit();
 		} catch (Exception e) {
 			log.error(e);
-			em.getTransaction().rollback();
 		}
 		return airport;
 	}
@@ -76,13 +77,10 @@ public class AirportDAO {
 		Airport airport = em.find(Airport.class, id);
 		try {
 			if (airport != null) {
-				em.getTransaction().begin();
 				em.remove(airport);
-				em.getTransaction().commit();
 			}
 		} catch (Exception e) {
 			log.error(e);
-			em.getTransaction().rollback();
 		}
 	}
 

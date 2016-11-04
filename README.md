@@ -1,21 +1,47 @@
-cdi-resteasy-hibernate-angularjs-tomcat-sample
-==============================================
+cdi-resteasy-hibernate-angularjs-wildfly-postgresql-sample
+==========================================================
 
 Sample application with full CRUD for Airport codes to showcase following technologies: 
-- Java 7 
-- CDI 
+- Java 8
+- CDI
 - RestEasy (JAX-RS) 
 - JPA / Hibernate
 - AngularJS 
 - Bootstrap 
 - Maven (build) 
 
-Setup
------
+Setup WildFly 9.0 standalone.xml
+--------------------------------
+```xml
+<subsystem xmlns="urn:jboss:domain:datasources:3.0">
+	<datasources>
+		<datasource jta="true" jndi-name="java:/jdbc/test" pool-name="test" enabled="true" use-java-context="true">
+			<connection-url>jdbc:postgresql://localhost:5432/test</connection-url>
+			<driver-class>org.postgresql.Driver</driver-class>
+		    <driver>postgresql</driver>
+		    <pool>
+		        <min-pool-size>2</min-pool-size>
+		        <max-pool-size>20</max-pool-size>
+		    </pool>
+		    <security>
+		        <user-name>test</user-name>
+		    </security>
+		</datasource>
+	    <drivers>
+	        <driver name="postgresql" module="org.postgresql">
+	            <xa-datasource-class>org.postgresql.xa.PGXADataSource</xa-datasource-class>
+	        </driver>
+	    </drivers>
+	</datasources>
+</subsystem>
+```
+
+Setup sample.war
+----------------
 - Use your favorite IDE to deploy and run the application. 
-- Use maven command to deploy to Tomcat. NOTE: maven settings.xml need to be configured with your local server. 
+- Use maven command to deploy to AS. NOTE: maven settings.xml need to be configured accordingly. 
 ```bash
-$ mvn tomcat7:deploy
+$ mvn clean deploy
 ```
 
 Access

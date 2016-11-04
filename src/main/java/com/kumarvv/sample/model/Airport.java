@@ -14,7 +14,7 @@ public class Airport {
 	private String country;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO, generator="generator.main_id_seq")
 	public Long getId() {
 		return id;
 	}
@@ -23,7 +23,7 @@ public class Airport {
 		this.id = id;
 	}
 
-	@Column(unique = true, nullable = false, length = 5)
+	@Column(nullable = false, length = 5)
 	public String getCode() {
 		return code;
 	}
